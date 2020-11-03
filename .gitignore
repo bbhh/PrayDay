@@ -1,0 +1,8 @@
+.gradle
+.idea
+**/build/
+!src/**/build/
+local.properties
+logs/
+config.toml
+families.json
