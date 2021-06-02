@@ -11,6 +11,7 @@ object DatabaseSpec : ConfigSpec() {
 object MessageSpec : ConfigSpec() {
     val pinpoint_app_id by required<String>()
     val families_per_batch by required<Int>()
+    val delay_between_messages by required<Long>()
 }
 
 class ConfigException(message: String) : Exception(message)

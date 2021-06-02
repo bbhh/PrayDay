@@ -24,6 +24,7 @@ class AppCommand : CliktCommand(), Logging {
         // set values in context
         globalConfig["FAMILIES_DATA_FILE"] = config.config[DatabaseSpec.families_data_file]
         globalConfig["FAMILIES_PER_BATCH"] = config.config[MessageSpec.families_per_batch]
+        globalConfig["DELAY_BETWEEN_MESSAGES"] = config.config[MessageSpec.delay_between_messages]
         globalConfig["PINPOINT_APP_ID"] = config.config[MessageSpec.pinpoint_app_id]
     }
 }

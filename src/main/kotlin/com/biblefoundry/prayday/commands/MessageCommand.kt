@@ -12,12 +12,13 @@ class MessageCommand : CliktCommand(), Logging {
     override fun run() {
         // set up messenger
         val familiesPerBatch = config["FAMILIES_PER_BATCH"] as Int
+        val delayBetweenMessages = config["DELAY_BETWEEN_MESSAGES"] as Long
         val pinpointAppId = config["PINPOINT_APP_ID"] as String
         val messenger = Messenger(pinpointAppId, familiesPerBatch)
 
         // send messages
         val subscribers = DatabaseController.listSubscribers()
         val families = DatabaseController.listFamilies()
-        messenger.sendMessages(subscribers, families)
+        messenger.sendMessages(subscribers, families, delayBetweenMessages)
     }
 }

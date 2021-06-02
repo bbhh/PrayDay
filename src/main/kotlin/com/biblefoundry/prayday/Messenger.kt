@@ -17,7 +17,7 @@ class Messenger(
         .region(Region.US_WEST_2)
         .build()
 
-    fun sendMessages(subscribers: List<Subscriber>?, families: List<String>?) {
+    fun sendMessages(subscribers: List<Subscriber>?, families: List<String>?, delayBetweenMessages: Long) {
         logger.info("Sending messages...")
 
         if (subscribers == null) {
@@ -45,6 +45,10 @@ class Messenger(
                 |$batch""".trimMargin()
             logger.info(message)
             sendMessage(subscriber.phone, message)
+
+            if (delayBetweenMessages > 0) {
+                Thread.sleep(delayBetweenMessages)
+            }
         }
     }
 
