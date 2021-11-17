@@ -9,16 +9,16 @@ data class FamiliesData(val families: List<Family>)
 
 @Serializable
 data class Family(
-        val members: List<Member>,
+    val members: List<Member>,
 )
 
 @Serializable
 data class Member(
-        val first_name: String,
-        val last_name: String,
-        val gender: String,
-        val is_member: Boolean = false,
-        val cell_phone: String = "",
+    val first_name: String,
+    val last_name: String,
+    val gender: String,
+    val is_member: Boolean = false,
+    val cell_phone: String = "",
 )
 
 object FamiliesDataController {

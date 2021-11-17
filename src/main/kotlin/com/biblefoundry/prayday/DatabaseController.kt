@@ -16,8 +16,8 @@ object DatabaseController : Logging {
     private val PHONE_PATTERN = "\\((\\d{3})\\) (\\d{3})-(\\d{4})".toRegex()
 
     var client: DynamoDbClient = DynamoDbClient.builder()
-            .region(Region.US_WEST_2)
-            .build()
+        .region(Region.US_WEST_2)
+        .build()
 
     fun createTables(familiesDataFile: String) {
         // load families data
@@ -63,8 +63,7 @@ object DatabaseController : Logging {
                         client.putItem(request)
                     }
             }
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             logger.error(e.message.toString())
         }
     }
@@ -96,44 +95,48 @@ object DatabaseController : Logging {
 
             val description = "$lastName, $primary$secondary"
 
-            logger.info("-> Adding $description to families table...")
-
-            val itemValues = mapOf<String, AttributeValue>(
-                "id" to AttributeValue.builder().s(UUID.randomUUID().toString()).build(),
-                "description" to AttributeValue.builder().s(description).build(),
-            )
-            val request = PutItemRequest.builder()
-                .tableName(FAMILIES_TABLE_NAME)
-                .item(itemValues)
-                .build()
-            client.putItem(request)
+            createFamily(description)
         }
+    }
+
+    fun createFamily(description: String) {
+        logger.info("-> Adding $description to families table...")
+
+        val itemValues = mapOf<String, AttributeValue>(
+            "id" to AttributeValue.builder().s(UUID.randomUUID().toString()).build(),
+            "description" to AttributeValue.builder().s(description).build(),
+        )
+        val request = PutItemRequest.builder()
+            .tableName(FAMILIES_TABLE_NAME)
+            .item(itemValues)
+            .build()
+        client.putItem(request)
     }
 
     private fun createTable(tableName: String) {
         logger.info("Creating table $tableName...")
 
         val request = CreateTableRequest.builder()
-                .attributeDefinitions(
-                    AttributeDefinition.builder()
-                        .attributeName("id")
-                        .attributeType(ScalarAttributeType.S)
-                        .build()
-                )
-                .keySchema(
-                    KeySchemaElement.builder()
-                        .attributeName("id")
-                        .keyType(KeyType.HASH)
-                        .build()
-                )
-                .provisionedThroughput(
-                    ProvisionedThroughput.builder()
-                        .readCapacityUnits(5L)
-                        .writeCapacityUnits(5L)
-                        .build()
-                )
-                .tableName(tableName)
-                .build()
+            .attributeDefinitions(
+                AttributeDefinition.builder()
+                    .attributeName("id")
+                    .attributeType(ScalarAttributeType.S)
+                    .build()
+            )
+            .keySchema(
+                KeySchemaElement.builder()
+                    .attributeName("id")
+                    .keyType(KeyType.HASH)
+                    .build()
+            )
+            .provisionedThroughput(
+                ProvisionedThroughput.builder()
+                    .readCapacityUnits(5L)
+                    .writeCapacityUnits(5L)
+                    .build()
+            )
+            .tableName(tableName)
+            .build()
 
         client.createTable(request)
 

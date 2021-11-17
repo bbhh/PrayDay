@@ -21,7 +21,7 @@ class Config(configFile: String) {
         addSpec(DatabaseSpec)
         addSpec(MessageSpec)
     }
-            .from.toml.file(configFile)
-            .from.env()
-            .from.systemProperties()
+        .from.toml.file(configFile)
+        .from.env()
+        .from.systemProperties()
 }

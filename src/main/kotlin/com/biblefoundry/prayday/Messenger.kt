@@ -8,10 +8,10 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class Messenger(
-        private val pinpointAppId: String,
-        private val familiesPerBatch: Int,
+    private val pinpointAppId: String,
+    private val familiesPerBatch: Int,
 ) : Logging {
-    private val dateFormatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy")
+    private val dateFormatter = DateTimeFormatter.ofPattern("EEEE M/d")
 
     private var client: PinpointClient = PinpointClient.builder()
         .region(Region.US_WEST_2)
@@ -41,7 +41,7 @@ class Messenger(
 
             // construct message and send to subscriber
             logger.info("Sending message to ${subscriber.firstName} ${subscriber.lastName} (${subscriber.phone})...")
-            val message = """Hi ${subscriber.firstName}, today is $todayFormatted. Please take some time today to pray for:
+            val message = """Hi ${subscriber.firstName}, today is $todayFormatted. Please pray for:
                 |$batch""".trimMargin()
             logger.info(message)
             sendMessage(subscriber.phone, message)
